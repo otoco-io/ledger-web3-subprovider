@@ -49,7 +49,7 @@ export abstract class Subprovider {
      * @param end A callback called once the subprovider is done handling the request
      */
     // tslint:disable-next-line:async-suffix
-    public abstract async handleRequest(
+    public abstract handleRequest(
         payload: JSONRPCRequestPayload,
         next: Callback,
         end: ErrorCallback,
@@ -67,7 +67,7 @@ export abstract class Subprovider {
         // Promisify does the binding internally and `this` is supplied as a second argument
         // tslint:disable-next-line:no-unbound-method
         return new Promise( (resolve, reject) => {
-            this.engine.sendAsync(finalPayload, (error, response) => {
+            this.engine.sendAsync(finalPayload as JSONRPCRequestPayload, (error: any, response) => {
                 if (error) reject(error)
                 else resolve(response) 
             })
@@ -97,10 +97,10 @@ export abstract class BaseWalletSubprovider extends Subprovider {
         }
     }
 
-    public abstract async getAccountsAsync(): Promise<string[]>;
-    public abstract async signTransactionAsync(txParams: PartialTxParams): Promise<string>;
-    public abstract async signPersonalMessageAsync(data: string, address: string): Promise<string>;
-    public abstract async signTypedDataAsync(address: string, typedData: any): Promise<string>;
+    public abstract getAccountsAsync(): Promise<string[]>;
+    public abstract signTransactionAsync(txParams: PartialTxParams): Promise<string>;
+    public abstract signPersonalMessageAsync(data: string, address: string): Promise<string>;
+    public abstract signTypedDataAsync(address: string, typedData: any): Promise<string>;
 
     /**
      * This method conforms to the web3-provider-engine interface.
@@ -121,7 +121,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                 try {
                     accounts = await this.getAccountsAsync();
                     end(null, accounts[0]);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;
@@ -130,7 +130,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                 try {
                     accounts = await this.getAccountsAsync();
                     end(null, accounts);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;
@@ -151,7 +151,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                     const signedTx = await this.signTransactionAsync(filledParams);
                     const response = await this._emitSendTransactionAsync(signedTx);
                     end(null, response.result);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;
@@ -166,7 +166,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                         tx: txParams,
                     };
                     end(null, result);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;
@@ -178,7 +178,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                 try {
                     const ecSignatureHex = await this.signPersonalMessageAsync(data, address);
                     end(null, ecSignatureHex);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;
@@ -187,7 +187,7 @@ export abstract class BaseWalletSubprovider extends Subprovider {
                 try {
                     const signature = await this.signTypedDataAsync(address, typedData);
                     end(null, signature);
-                } catch (err) {
+                } catch (err: any) {
                     end(err);
                 }
                 return;

@@ -102,6 +102,7 @@ export interface PartialTxParams {
     maxPriorityFeePerGas?: string;
     maxFeePerGas?: string;
     gasLimit?: string;
+    gasPrice?: string;
     gas: string;
     to: string;
     from: string;
@@ -154,44 +155,4 @@ export type NextCallback = (callback?: OnNextCompleted) => void;
 
 export interface JSONRPCRequestPayloadWithMethod extends JSONRPCRequestPayload {
     method: string;
-}
-
-export interface TrezorSubproviderConfig {
-    accountFetchingConfigs: AccountFetchingConfigs;
-    trezorConnectClientApi: any;
-    networkId: number;
-}
-
-export interface TrezorGetPublicKeyResponsePayload {
-    path: {
-        [index: number]: number;
-    };
-    serializedPath: string;
-    childNumb: number;
-    xpub: string;
-    chainCode: string;
-    publicKey: string;
-    fingerprint: number;
-    depth: number;
-}
-
-export interface TrezorSignTxResponsePayload {
-    v: string;
-    r: string;
-    s: string;
-}
-
-export interface TrezorSignMsgResponsePayload {
-    address: string;
-    signature: string;
-}
-
-export interface TrezorResponseErrorPayload {
-    error: string;
-}
-
-export interface TrezorConnectResponse {
-    payload: any;
-    id: number;
-    success: boolean;
 }

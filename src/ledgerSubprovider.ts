@@ -113,7 +113,7 @@ export class LedgerSubprovider extends BaseWalletSubprovider {
         txParams.chainId = this._networkId
         // Mount EIP-1559 transaction parameters 
         const common = new Common({ chain: this._networkId, hardfork: Hardfork.London, eips: [1559] })
-        const tx = FeeMarketEIP1559Transaction.fromTxData(txParams, {common});
+        const tx = FeeMarketEIP1559Transaction.fromTxData(txParams as FeeMarketEIP1559TxData, {common});
         // Get transaction Hex to sign
         const txHex = tx.getMessageToSign(false).toString('hex');
         try {
@@ -121,7 +121,7 @@ export class LedgerSubprovider extends BaseWalletSubprovider {
             const fullDerivationPath = derivedKeyInfo.derivationPath;
             // Request ledger to sign transaction
             const result = await this._ledgerClientIfExists.signTransaction(fullDerivationPath, txHex);
-            const txSignedData:FeeMarketEIP1559TxData = txParams
+            const txSignedData:FeeMarketEIP1559TxData = txParams as FeeMarketEIP1559TxData
             txSignedData.r = '0x'+result.r
             txSignedData.s = '0x'+result.s
             txSignedData.v = '0x'+result.v
