@@ -1,14 +1,14 @@
 {
   "name": "ledger-web3-subprovider",
-  "version": "1.0.0",
-  "description": "Ledget Web3 Subprovider used on OtoCo.io",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "version": "1.0.2",
+  "description": "Ledger Web3 Subprovider used on OtoCo.io",
+  "main": "lib/ledger.js",
+  "types": "lib/ledger.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --downlevelIteration",
     "prepare": "npm run build",
-    "version": "npm run format && git add -A src"
+    "version": "git add -A src"
   },
   "repository": {
     "type": "git",
